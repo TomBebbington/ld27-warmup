@@ -3,7 +3,7 @@
 	
 	<meta title="Zombeh" package="org.zombeh" version="1.0.0" company="TopHattedCoder" />
 	<app main="Game" path="bin" file="zombeh" />
-	<window width="0" height="0" fullscreen="true"/>
+	<window width="640" height="480"/>
 	<source path="src" />
 	<haxelib name="openfl" />
 	<haxelib name="flixel" />

@@ -3300,11 +3300,11 @@ NMEPreloader.prototype = $extend(flash.display.Sprite.prototype,{
 	,onInit: function(){
 	}
 	,getWidth: function(){
-		var width = 0;
+		var width = 640;
 		if(width > 0) return width; else return flash.Lib.get_current().get_stage().get_stageWidth();
 	}
 	,getHeight: function(){
-		var height = 0;
+		var height = 480;
 		if(height > 0) return height; else return flash.Lib.get_current().get_stage().get_stageHeight();
 	}
 	,getBackgroundColor: function(){

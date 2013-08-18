@@ -2,3 +2,4 @@
 -lib flixel
 -cmd openfl build flash
 -cmd openfl build html5
+-cmd openfl test linux
