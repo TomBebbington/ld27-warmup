@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="Zombeh" package="org.zombeh" version="1.0.0" company="TopHattedCoder" />
+	<app main="Game" path="bin" file="zombeh" />
+	<window width="0" height="0" fullscreen="true"/>
+	<source path="src" />
+	<haxelib name="openfl" />
+	<haxelib name="flixel" />
+	<assets path="assets" exclude="openfl.svg" />
+	<icon path="assets/openfl.svg" />
+	
+</project>
