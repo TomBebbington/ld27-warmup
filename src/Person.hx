@@ -9,7 +9,7 @@ class Person extends FlxSprite {
 		super(0, 0, asset);
 		this.emitter = new FlxEmitter();
 		this.emitter.gravity = 200;
-		this.emitter.makeParticles(new flash.display.BitmapData(7, 7, false, 0xFFFFFFFF));
+		this.emitter.makeParticles("assets/gib.png");
 		this.emitter.width = this.width;
 		this.emitter.height = this.height;
 		hasBeenAdded = false;
@@ -32,6 +32,8 @@ class Person extends FlxSprite {
 			this.acceleration.y = 0;
 		} else
 			this.acceleration.y = this.width * this.height * ySpeed();
+		if(this.y + this.height > FlxG.height * 2 || this.x + this.width > FlxG.width * 2 || this.y < -FlxG.width || this.x < -FlxG.width)
+			this.loseHealth(this.health);
 		this.scale.set(this.facing == FlxObject.LEFT ? -1 : 1, 1);
 		super.update();
 	}

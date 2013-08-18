@@ -97,6 +97,8 @@ class AssetData {
 			type.set ("assets/jump.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			path.set ("assets/person.png", "assets/person.png");
 			type.set ("assets/person.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			path.set ("assets/gib.png", "assets/gib.png");
+			type.set ("assets/gib.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			
 			
 			initialized = true;
@@ -107,6 +109,7 @@ class AssetData {
 	
 	
 }
+
 
 
 

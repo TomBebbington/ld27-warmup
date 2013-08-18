@@ -225,6 +225,11 @@ class ApplicationMain {
 		total ++;
 		
 		
+		var loader:Loader = new Loader();
+		loaders.set("assets/gib.png", loader);
+		total ++;
+		
+		
 		var resourcePrefix = "NME_:bitmap_";
 		for (resourceName in Resource.listNames()) {
 			if (StringTools.startsWith (resourceName, resourcePrefix)) {

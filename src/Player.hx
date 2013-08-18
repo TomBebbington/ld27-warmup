@@ -14,17 +14,17 @@ class Player extends Person {
 	}
 	public override function update() {
 		this.acceleration.x = 0;
-		if(FlxG.keys.pressed.LEFT) {
+		if(FlxG.keys.pressed.LEFT || FlxG.keys.pressed.A) {
 			this.acceleration.x = -this.maxVelocity.x;
 			dir = 0;
 			this.facing = FlxObject.LEFT;
-		} else if(FlxG.keys.pressed.RIGHT) {
+		} else if(FlxG.keys.pressed.RIGHT || FlxG.keys.pressed.D) {
 			this.acceleration.x = this.maxVelocity.x;
 			dir = 1;
 			this.facing = FlxObject.RIGHT;
-		} else if(FlxG.keys.pressed.UP)
+		} else if(FlxG.keys.pressed.UP || FlxG.keys.pressed.W)
 			dir = 2;
-		else if(FlxG.keys.pressed.DOWN)
+		else if(FlxG.keys.pressed.DOWN || FlxG.keys.pressed.S)
 			dir = 3;
 		if(FlxG.keys.justPressed.X || FlxG.keys.justPressed.ALT) {
 			this.shoot();

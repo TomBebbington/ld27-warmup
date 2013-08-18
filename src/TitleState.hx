@@ -27,7 +27,7 @@ class TitleState extends FlxState {
 		switchState(new PlayState());
 	}
 	public override function update() {
-		if(keys.pressed.SPACE || (mouse.justPressed && play.overlapsPoint(new FlxPoint(mouse.x, mouse.y))))
+		if(keys.pressed.SPACE || keys.pressed.X || keys.pressed.Z || (mouse.justPressed && play.overlapsPoint(new FlxPoint(mouse.x, mouse.y))))
 			triggerPlay();
 		#if sys
 		if(keys.justPressed.ESCAPE)

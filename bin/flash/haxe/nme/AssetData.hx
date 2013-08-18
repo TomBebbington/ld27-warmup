@@ -98,6 +98,8 @@ class AssetData {
 			type.set ("assets/jump.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			className.set ("assets/person.png", nme.NME_assets_person_png);
 			type.set ("assets/person.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			className.set ("assets/gib.png", nme.NME_assets_gib_png);
+			type.set ("assets/gib.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			
 			
 			initialized = true;
@@ -150,3 +152,4 @@ class NME_assets_hurt_wav extends flash.media.Sound { }
 class NME_assets_shoot_wav extends flash.media.Sound { }
 class NME_assets_jump_wav extends flash.media.Sound { }
 class NME_assets_person_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
+class NME_assets_gib_png extends flash.display.BitmapData { public function new () { super (0, 0); } }

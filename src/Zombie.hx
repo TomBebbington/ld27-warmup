@@ -20,8 +20,6 @@ class Zombie extends Person {
 		this.maxVelocity.x = this.width * Math.min(r, 9) * (0.8 + Math.random() * 0.4);
 	}
 	public override function update() {
-		if(this.y > FlxG.height || this.x > FlxG.width)
-			this.loseHealth(this.health);
 		super.update();
 	}
 	public override function ySpeed()

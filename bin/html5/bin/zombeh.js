@@ -122,6 +122,9 @@ ApplicationMain.main = function(){
 	var loader32 = new flash.display.Loader();
 	ApplicationMain.loaders.set("assets/person.png",loader32);
 	ApplicationMain.total++;
+	var loader33 = new flash.display.Loader();
+	ApplicationMain.loaders.set("assets/gib.png",loader33);
+	ApplicationMain.total++;
 	var resourcePrefix = "NME_:bitmap_";
 	var _g = 0;
 	var _g1 = haxe.Resource.listNames();
@@ -140,9 +143,9 @@ ApplicationMain.main = function(){
 		var $it0 = ApplicationMain.loaders.keys();
 		while( $it0.hasNext() ) {
 			var path = $it0.next();
-			var loader33 = ApplicationMain.loaders.get(path);
-			loader33.contentLoaderInfo.addEventListener("complete",ApplicationMain.loader_onComplete);
-			loader33.load(new flash.net.URLRequest(path));
+			var loader34 = ApplicationMain.loaders.get(path);
+			loader34.contentLoaderInfo.addEventListener("complete",ApplicationMain.loader_onComplete);
+			loader34.load(new flash.net.URLRequest(path));
 		}
 		var $it1 = ApplicationMain.urlLoaders.keys();
 		while( $it1.hasNext() ) {
@@ -3313,7 +3316,7 @@ var Person = function(asset){
 	flixel.FlxSprite.call(this,0,0,asset);
 	this.emitter = new flixel.effects.particles.FlxEmitter();
 	this.emitter.set_gravity(200);
-	this.emitter.makeParticles(new flash.display.BitmapData(7,7,false,-1));
+	this.emitter.makeParticles("assets/gib.png");
 	this.emitter.set_width(this.width);
 	this.emitter.set_height(this.height);
 	this.hasBeenAdded = false;
@@ -3369,6 +3372,7 @@ Person.prototype = $extend(flixel.FlxSprite.prototype,{
 			this.drag.y = 0;
 			this.acceleration.y = 0;
 		} else this.acceleration.y = this.width * this.height * this.ySpeed();
+		if(this.y + this.height > flixel.FlxG.height * 2 || this.x + this.width > flixel.FlxG.width * 2 || this.y < -flixel.FlxG.width || this.x < -flixel.FlxG.width) this.loseHealth(this.health);
 		this.scale.set(this.facing == 1?-1:1,1);
 		flixel.FlxSprite.prototype.update.call(this);
 	}
@@ -3773,7 +3777,7 @@ $hxClasses["PlayState"] = PlayState;
 PlayState.__name__ = ["PlayState"];
 PlayState.__properties__ = {get_maxZombies:"get_maxZombies"}
 PlayState.get_maxZombies = function(){
-	return 4 + Math.ceil(flixel.FlxG.height * 0.003);
+	return 2 + Math.ceil(flixel.FlxG.height * 0.003);
 }
 PlayState.__super__ = flixel.FlxState;
 PlayState.prototype = $extend(flixel.FlxState.prototype,{
@@ -3785,6 +3789,8 @@ PlayState.prototype = $extend(flixel.FlxState.prototype,{
 		flixel.FlxG.overlap(this.zombies,this.zombies,null,flixel.FlxObject.separate);
 		flixel.FlxG.overlap(this.player,this.platforms,null,flixel.FlxObject.separate);
 		flixel.FlxG.overlap(this.emitters,this.platforms,null,flixel.FlxObject.separate);
+		flixel.FlxG.overlap(this.player,this.walls,null,flixel.FlxObject.separate);
+		flixel.FlxG.overlap(this.zombies,this.walls,null,flixel.FlxObject.separate);
 		var _g = 0;
 		var _g1 = this.zombies.members;
 		while(_g < _g1.length) {
@@ -3843,6 +3849,9 @@ PlayState.prototype = $extend(flixel.FlxState.prototype,{
 		this.add(this.player = new Player());
 		this.add(this.emitters = new flixel.group.FlxGroup());
 		this.add(this.platforms = new flixel.group.FlxGroup());
+		this.add(this.walls = new flixel.group.FlxGroup());
+		this.walls.add(new Wall(0,0,10,flixel.FlxG.height));
+		this.walls.add(new Wall(flixel.FlxG.width - 10,0,10,flixel.FlxG.height));
 		this.add(new RoundChange(this.round));
 		this.platforms.add(new Platform(flixel.FlxG.width).at(0,flixel.FlxG.height - 20));
 		var nplats = Math.floor(flixel.FlxG.height / 160);
@@ -3857,12 +3866,13 @@ PlayState.prototype = $extend(flixel.FlxState.prototype,{
 		this.add(this.scoreText = new flixel.text.FlxText(0,0,flixel.FlxG.width,"",20));
 		this.add(this.bullets = new flixel.group.FlxGroup());
 		var _g1 = 0;
-		var _g = 4 + Math.ceil(flixel.FlxG.height * 0.003);
+		var _g = 2 + Math.ceil(flixel.FlxG.height * 0.003);
 		while(_g1 < _g) {
 			var i = _g1++;
 			this.makeZombie(false);
 		}
 		this.cameras = [this.camera = new flixel.FlxCamera(0,0,flixel.FlxG.width,flixel.FlxG.height)];
+		this.player.setPosition(this.spawn.x + (this.spawn.width - this.player.width) * 0.5,this.spawn.y - this.player.height);
 		flixel.FlxState.prototype.create.call(this);
 	}
 	,get_numZombies: function(){
@@ -3911,15 +3921,15 @@ Player.prototype = $extend(Person.prototype,{
 	}
 	,update: function(){
 		this.acceleration.x = 0;
-		if(flixel.FlxG.keys.pressed.check("LEFT")) {
+		if(flixel.FlxG.keys.pressed.check("LEFT") || flixel.FlxG.keys.pressed.check("A")) {
 			this.acceleration.x = -this.maxVelocity.x;
 			this.dir = 0;
 			this.set_facing(1);
-		} else if(flixel.FlxG.keys.pressed.check("RIGHT")) {
+		} else if(flixel.FlxG.keys.pressed.check("RIGHT") || flixel.FlxG.keys.pressed.check("D")) {
 			this.acceleration.x = this.maxVelocity.x;
 			this.dir = 1;
 			this.set_facing(16);
-		} else if(flixel.FlxG.keys.pressed.check("UP")) this.dir = 2; else if(flixel.FlxG.keys.pressed.check("DOWN")) this.dir = 3;
+		} else if(flixel.FlxG.keys.pressed.check("UP") || flixel.FlxG.keys.pressed.check("W")) this.dir = 2; else if(flixel.FlxG.keys.pressed.check("DOWN") || flixel.FlxG.keys.pressed.check("S")) this.dir = 3;
 		if(flixel.FlxG.keys.justPressed.check("X") || flixel.FlxG.keys.justPressed.check("ALT")) {
 			this.shoot();
 			this.bulletTimer = flixel.FlxG.elapsed;
@@ -4334,7 +4344,7 @@ TitleState.__name__ = ["TitleState"];
 TitleState.__super__ = flixel.FlxState;
 TitleState.prototype = $extend(flixel.FlxState.prototype,{
 	update: function(){
-		if(flixel.FlxG.keys.pressed.check("SPACE") || flixel.FlxG.mouse._leftButton.justPressed() && this.play.overlapsPoint(new flixel.util.FlxPoint(flixel.FlxG.mouse.x,flixel.FlxG.mouse.y))) this.triggerPlay();
+		if(flixel.FlxG.keys.pressed.check("SPACE") || flixel.FlxG.keys.pressed.check("X") || flixel.FlxG.keys.pressed.check("Z") || flixel.FlxG.mouse._leftButton.justPressed() && this.play.overlapsPoint(new flixel.util.FlxPoint(flixel.FlxG.mouse.x,flixel.FlxG.mouse.y))) this.triggerPlay();
 		flixel.FlxState.prototype.update.call(this);
 	}
 	,triggerPlay: function(){
@@ -4477,6 +4487,29 @@ Type["typeof"] = function(v){
 		return ValueType.TUnknown;
 	}
 }
+var Wall = function(x,y,w,h){
+	flixel.FlxSprite.call(this,this.cx = x,this.cy = y);
+	this.allowCollisions = 4369;
+	true;
+	this.makeGraphic(w,h,-15592684);
+};
+$hxClasses["Wall"] = Wall;
+Wall.__name__ = ["Wall"];
+Wall.__super__ = flixel.FlxSprite;
+Wall.prototype = $extend(flixel.FlxSprite.prototype,{
+	update: function(){
+		this.velocity.set(0,0);
+		this.x = this.cx;
+		this.y = this.cy;
+		flixel.FlxSprite.prototype.update.call(this);
+	}
+	,at: function(x,y){
+		this.x = this.cx = x;
+		this.y = this.cy = y;
+		return this;
+	}
+	,__class__: Wall
+});
 var XmlType = $hxClasses["XmlType"] = { __ename__ : ["XmlType"], __constructs__ : [] }
 var Xml = function() { }
 $hxClasses["Xml"] = Xml;
@@ -4548,7 +4581,6 @@ Zombie.prototype = $extend(Person.prototype,{
 		return this.dySpeed;
 	}
 	,update: function(){
-		if(this.y > flixel.FlxG.height || this.x > flixel.FlxG.width) this.loseHealth(this.health);
 		Person.prototype.update.call(this);
 	}
 	,atRound: function(r){
@@ -22364,6 +22396,9 @@ nme.AssetData.initialize = function(){
 		nme.AssetData.path.set("assets/person.png","assets/person.png");
 		var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
 		nme.AssetData.type.set("assets/person.png",value);
+		nme.AssetData.path.set("assets/gib.png","assets/gib.png");
+		var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
+		nme.AssetData.type.set("assets/gib.png",value);
 		nme.AssetData.initialized = true;
 	}
 }

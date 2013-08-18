@@ -4,7 +4,7 @@ import flixel.group.FlxGroup;
 class PlayState extends FlxState {
 	static var maxZombies(get, never):Int;
 	static inline function get_maxZombies():Int
-		return 4 + Math.ceil(FlxG.height * 0.003);
+		return 2 + Math.ceil(FlxG.height * 0.003);
 	static inline var BG_COLOR = 0xFF029000;
 	public var numZombies(get, never):Int;
 	public var zombieCount:Int;
@@ -15,6 +15,7 @@ class PlayState extends FlxState {
 	public var platforms:FlxGroup;
 	public var bullets:FlxGroup;
 	public var emitters:FlxGroup;
+	public var walls:FlxGroup;
 	public var round:Int;
 	public var spawn:Platform;
 	var camera:flixel.FlxCamera;
@@ -30,6 +31,9 @@ class PlayState extends FlxState {
 		this.add(player = new Player());
 		this.add(emitters = new FlxGroup());
 		this.add(platforms = new FlxGroup());
+		this.add(walls = new FlxGroup());
+		walls.add(new Wall(0, 0, 10, FlxG.height));
+		walls.add(new Wall(FlxG.width - 10, 0, 10, FlxG.height));
 		this.add(new RoundChange(round));
 		platforms.add(new Platform(FlxG.width).at(-0, FlxG.height - Platform.HEIGHT));
 		var nplats = Math.floor(FlxG.height / (Platform.HEIGHT * 8));
@@ -44,6 +48,7 @@ class PlayState extends FlxState {
 		for(i in 0...maxZombies)
 			makeZombie(false);
 		this.cameras = [camera = new flixel.FlxCamera(0, 0, FlxG.width, FlxG.height)];
+		this.player.setPosition(spawn.x + (spawn.width - player.width) * 0.5, spawn.y - player.height);
 		super.create();
 	}
 	public function makeZombie(count:Bool = true) {
@@ -82,6 +87,8 @@ class PlayState extends FlxState {
 		FlxG.collide(zombies, zombies);
 		FlxG.collide(player, platforms);
 		FlxG.collide(emitters, platforms);
+		FlxG.collide(player, walls);
+		FlxG.collide(zombies, walls);
 		for(z in zombies.members) {
 			if(z != null) {
 				var z:Zombie = cast z;
