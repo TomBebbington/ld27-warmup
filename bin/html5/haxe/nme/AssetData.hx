@@ -93,10 +93,14 @@ class AssetData {
 			type.set ("assets/hurt.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			path.set ("assets/shoot.wav", "assets/shoot.wav");
 			type.set ("assets/shoot.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
+			path.set ("assets/zombies-are-coming.ogg", "assets/zombies-are-coming.ogg");
+			type.set ("assets/zombies-are-coming.ogg", Reflect.field (AssetType, "sound".toUpperCase ()));
 			path.set ("assets/jump.wav", "assets/jump.wav");
 			type.set ("assets/jump.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			path.set ("assets/person.png", "assets/person.png");
 			type.set ("assets/person.png", Reflect.field (AssetType, "image".toUpperCase ()));
+			path.set ("assets/roar.wav", "assets/roar.wav");
+			type.set ("assets/roar.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			path.set ("assets/gib.png", "assets/gib.png");
 			type.set ("assets/gib.png", Reflect.field (AssetType, "image".toUpperCase ()));
 			
@@ -109,6 +113,8 @@ class AssetData {
 	
 	
 }
+
+
 
 
 

@@ -8,6 +8,9 @@ class Zombie extends Person {
 		dySpeed = 0.15 + Math.random()*0.1;
 		this.solid = true;
 	}
+	public function roar() {
+		FlxG.sound.play("assets/roar.wav", 0.5, false, true);
+	}
 	public function on(p:PlayState) {
 		var pl:Platform = null;
 		while(pl == null || pl == p.spawn || pl.x < 0 || pl.x + pl.width > FlxG.width)
@@ -39,5 +42,8 @@ class Zombie extends Person {
 		this.velocity.x = Math.abs(pcx - zcx) < 5 ? 0 : (isLeft ? -this.maxVelocity.x : this.maxVelocity.x);
 		if((this.y + this.height > p.y + p.height || (this.overlaps(p) && this.y > p.y)) && this.velocity.y == 0)
 			this.jump();
+		if(Math.abs(p.x - this.x) < 20) {
+			roar();
+		}
 	}
 }

@@ -220,9 +220,11 @@ class ApplicationMain {
 		
 		
 		
+		
 		var loader:Loader = new Loader();
 		loaders.set("assets/person.png", loader);
 		total ++;
+		
 		
 		
 		var loader:Loader = new Loader();

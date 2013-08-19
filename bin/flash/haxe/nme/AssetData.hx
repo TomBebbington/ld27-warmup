@@ -94,6 +94,8 @@ class AssetData {
 			type.set ("assets/hurt.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			className.set ("assets/shoot.wav", nme.NME_assets_shoot_wav);
 			type.set ("assets/shoot.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
+			className.set ("assets/zombies-are-coming.ogg", nme.NME_assets_zombies_are_coming_ogg);
+			type.set ("assets/zombies-are-coming.ogg", Reflect.field (AssetType, "sound".toUpperCase ()));
 			className.set ("assets/jump.wav", nme.NME_assets_jump_wav);
 			type.set ("assets/jump.wav", Reflect.field (AssetType, "sound".toUpperCase ()));
 			className.set ("assets/person.png", nme.NME_assets_person_png);
@@ -150,6 +152,7 @@ class NME_assets_zombeh_png extends flash.display.BitmapData { public function n
 class NME_assets_select_wav extends flash.media.Sound { }
 class NME_assets_hurt_wav extends flash.media.Sound { }
 class NME_assets_shoot_wav extends flash.media.Sound { }
+class NME_assets_zombies_are_coming_ogg extends flash.media.Sound { }
 class NME_assets_jump_wav extends flash.media.Sound { }
 class NME_assets_person_png extends flash.display.BitmapData { public function new () { super (0, 0); } }
 class NME_assets_gib_png extends flash.display.BitmapData { public function new () { super (0, 0); } }

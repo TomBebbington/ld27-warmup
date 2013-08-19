@@ -1584,6 +1584,7 @@ Game.prototype = $extend(flixel.FlxGame.prototype,{
 	}
 	,onAdded: function(_){
 		this.get_stage().addEventListener(flash.events.Event.RESIZE,$bind(this,this.onResized));
+		flixel.FlxG.sound.playMusic("assets/zombies-are-coming.ogg",0.5);
 	}
 	,__class__: Game
 });
@@ -4237,7 +4238,7 @@ flixel.text.FlxText.prototype = $extend(flixel.FlxSprite.prototype,{
 });
 var RoundChange = function(r){
 	flixel.text.FlxText.call(this,(flixel.FlxG.width - 300) * 0.5,flixel.FlxG.height * 0.5,300,"Round " + r,40);
-	this.set_color(-12096);
+	this.set_color(-1);
 	this.set_alignment("center");
 };
 $hxClasses["RoundChange"] = RoundChange;
@@ -4569,6 +4570,7 @@ Zombie.prototype = $extend(Person.prototype,{
 		this.set_facing(isLeft?1:16);
 		if(Math.abs(pcx - zcx) < 5) this.velocity.x = 0; else if(isLeft) this.velocity.x = -this.maxVelocity.x; else this.velocity.x = this.maxVelocity.x;
 		if((this.y + this.height > p.y + p.height || this.overlaps(p) && this.y > p.y) && this.velocity.y == 0) this.jump();
+		if(Math.abs(p.x - this.x) < 20) this.roar();
 	}
 	,die: function(){
 		Person.prototype.die.call(this);
@@ -4593,6 +4595,9 @@ Zombie.prototype = $extend(Person.prototype,{
 		if(pl.x <= 0) this.x = pl.x; else this.x = pl.x + pl.width - this.width;
 		this.y = pl.y - this.height;
 		return this;
+	}
+	,roar: function(){
+		null;
 	}
 	,__class__: Zombie
 });
@@ -22390,12 +22395,18 @@ nme.AssetData.initialize = function(){
 		nme.AssetData.path.set("assets/shoot.wav","assets/shoot.wav");
 		var value = Reflect.field(openfl.AssetType,"sound".toUpperCase());
 		nme.AssetData.type.set("assets/shoot.wav",value);
+		nme.AssetData.path.set("assets/zombies-are-coming.ogg","assets/zombies-are-coming.ogg");
+		var value = Reflect.field(openfl.AssetType,"sound".toUpperCase());
+		nme.AssetData.type.set("assets/zombies-are-coming.ogg",value);
 		nme.AssetData.path.set("assets/jump.wav","assets/jump.wav");
 		var value = Reflect.field(openfl.AssetType,"sound".toUpperCase());
 		nme.AssetData.type.set("assets/jump.wav",value);
 		nme.AssetData.path.set("assets/person.png","assets/person.png");
 		var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
 		nme.AssetData.type.set("assets/person.png",value);
+		nme.AssetData.path.set("assets/roar.wav","assets/roar.wav");
+		var value = Reflect.field(openfl.AssetType,"sound".toUpperCase());
+		nme.AssetData.type.set("assets/roar.wav",value);
 		nme.AssetData.path.set("assets/gib.png","assets/gib.png");
 		var value = Reflect.field(openfl.AssetType,"image".toUpperCase());
 		nme.AssetData.type.set("assets/gib.png",value);
